@@ -13,12 +13,12 @@ def main():
         latlong_path)
     common_ids = remote_data.unique_common_ids(rawipstats_path,
                                                latlong_path)
-    full_df_rawipstats = remote_data.df_all_remotes_rawipstats(common_ids,
-                                                               array_file_names_rawipstats,
-                                                               rawipstats_path)
-    full_df_latlong = remote_data.df_all_remotes_latlong(common_ids,
-                                                         array_file_names_latlong,
-                                                         latlong_path)
+    full_df_rawipstats = remote_data.concatenate_all_dfs_rawipstats(common_ids,
+                                                                    array_file_names_rawipstats,
+                                                                    rawipstats_path)
+    full_df_latlong = remote_data.concatenate_all_dfs_latlong(common_ids,
+                                                              array_file_names_latlong,
+                                                              latlong_path)
     df_merged = remote_data.merge_rawipstats_latlong_dfs(full_df_rawipstats,
                                                          full_df_latlong)
 
@@ -141,7 +141,7 @@ class RemoteDataProcessing:
 
         return df_grouped.reset_index()
 
-    def df_all_remotes_rawipstats(self, common_ids, array_file_names, folder_path):
+    def concatenate_all_dfs_rawipstats(self, common_ids, array_file_names, folder_path):
         array_remote_dfs = []
         for remote_id in common_ids:
             array_filtered_files = self.filter_files_by_remote_id(
@@ -156,7 +156,7 @@ class RemoteDataProcessing:
 
         return full_df_rawipstats
 
-    def df_all_remotes_latlong(self, common_ids, array_file_names, folder_path):
+    def concatenate_all_dfs_latlong(self, common_ids, array_file_names, folder_path):
         array_remote_dfs = []
         for remote_id in common_ids:
             array_filtered_files = self.filter_files_by_remote_id(
